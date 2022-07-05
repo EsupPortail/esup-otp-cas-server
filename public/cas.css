@@ -154,6 +154,10 @@ input, button {
     
 } 
 
+.factor {
+    color: #00326E;
+    white-space: nowrap;
+}
 
 /***********/ 
      
@@ -162,5 +166,4 @@ input, button {
    #content { padding:15px 15px;  }
     #token { width:68%; }
    input, button {  padding: 0.8rem; font-size: 15px; box-sizing: border-box;}
-    
  }
