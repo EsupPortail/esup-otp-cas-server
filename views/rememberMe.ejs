@@ -17,20 +17,21 @@
 
     <main role="main">
         <div id="content">
-            <h2>Enregistrer l'appareil</h2>
-
-             Ne pas me demander de code sur ce matériel pendant un mois ?
+            <h2><b>Enregistrer ce code sur ce matériel ?</b></h2>
 
             <form id="registerform" method="post">
                 <input id="ticket" name="ticket" value="<%= ticket %>" type="hidden">
                 <button accesskey="o">
-                    <span>Oui</span>
+                    <span>Oui pendant un mois</span>
                 </button>
                 <button accesskey="n" autofocus
                         onclick="document.getElementById('rememberMe').value = 'skip'">
                     <span>Non</span>
                 </button>
                 <input type="hidden" id="rememberMe" name="rememberMe" value="submit">
+            </form>
+            <p></p>
+            Astuce : je me déconnecte de l'ENT, si je désire annuler ce choix.
         </div>
     </main>
     <script>
