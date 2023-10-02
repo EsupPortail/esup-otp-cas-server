@@ -15,8 +15,22 @@ app.use(base_path, express.static(__dirname + '/public'));
 app.use(base_path + '/javascripts', express.static(__dirname + '/node_modules/jquery/dist'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
+
+let mongo_collection
+const mongo_client = async () => {
+    const { MongoClient } = require('mongodb')
+    const client = await MongoClient.connect(conf.session_store.mongoUrl)
+    mongo_collection = client.db().collection('sessions')
+    await mongo_collection.createIndex({ "session.ticket_for_SLO": 1 }, { background: true, expireAfterSeconds: 0 })
+    return client
+}
+app.use((req, _res, next) => {
+    req.mongo_collection = mongo_collection
+    next()
+})
+
 const store = conf.session_store.mongoUrl ? require('connect-mongo').create({
-    mongoUrl: conf.session_store.mongoUrl,
+    clientPromise: mongo_client(),
     stringify: false,
     ttl: conf.ticket_validity_seconds, // short ttl that will be 
 }) : throw_("unknown session_store") ;
