@@ -22,7 +22,7 @@ const store = conf.session_store.mongoUrl ? require('connect-mongo').create({
 }) : throw_("unknown session_store") ;
 app.use(session({ 
     store,
-    cookie: { path: base_path, secure: 'auto' },
+    cookie: { path: base_path, secure: 'auto', sameSite: 'none' },
     resave: false, saveUninitialized: false,
     ...conf.session_store.options,
 }));
