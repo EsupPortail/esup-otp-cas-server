@@ -45,6 +45,9 @@ Features not yet implemented
 
 ![](docs/esup-otp-cas-server-chainage.png)
 
+### Divers
+
+- [Shibboleth IDP : choisir un CAS en fonction du SP](https://www.esup-portail.org/wiki/x/LYBxR)
 
 License
 ----
