@@ -6,13 +6,16 @@ body {
     color: #444; 
     font-weight: normal; 
 }
+main {
+    padding-bottom: 10px;
+}
 
-a, a:visited {  
+a, a:visited, details summary {  
     text-decoration: none;
     color: #20559A;
 }
 
-a:hover { 
+a:hover, details summary:hover { 
     color: #2055cc;
     text-decoration: underline; 
     cursor: pointer;
@@ -40,12 +43,21 @@ h2 {
 
 #content { 
     margin:40px 5px; 
-     }
+}
 
-ul {
+#fm1 ul {
     list-style: none;
     padding-left: 0;
 }
+
+#help ul {
+    padding-left: 20px;
+}
+
+#help li {
+  margin: 10px 0;
+}
+
 input, button {
     padding: 1rem;
     font-size: 16px;
@@ -57,8 +69,6 @@ input, button {
     display: none !important;
 }
 
-
-
 #code { 
     display: flex; 
 }
@@ -66,7 +76,7 @@ input, button {
 #code > div {
     flex: 1;
 }
-#code li::before {
+#code li::marker {
     content: "〉"; 
     color: #aaa;
     font-size: 83%;
@@ -101,8 +111,7 @@ input, button {
 
 
 #choices {
-    text-align: center; 
-     
+    text-align: center;
 }
 #methodChoices a {
     display: flex;
