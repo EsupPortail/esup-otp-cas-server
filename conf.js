@@ -37,6 +37,10 @@ module.exports = {
         if_IP_in: [],
     },
 
+    allow_api_req: {
+        if_IP_in: [ '::1' ], // localhost
+    },
+
     session_store: {
         mongoUrl: 'mongodb://owner:xxx@localhost/esup-otp-cas-server',
         options: {

@@ -22,6 +22,7 @@ const mongo_client = async () => {
     const client = await MongoClient.connect(conf.session_store.mongoUrl)
     mongo_collection = client.db().collection('sessions')
     await mongo_collection.createIndex({ "session.ticket_for_SLO": 1 }, { background: true, expireAfterSeconds: 0 })
+    await mongo_collection.createIndex({ "session.uid": 1 }, { background: true, expireAfterSeconds: 0 })
     return client
 }
 app.use((req, _res, next) => {
