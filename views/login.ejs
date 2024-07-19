@@ -484,7 +484,9 @@
         }));
         $("#methodChoices li a").first().focus();
         const last_send_message = user_params.last_send_message || {};
-        if (last_send_message.auto && !last_send_message.verified & (Date.now() - last_send_message.time) < 4 /* hours */ * 60 * 60 * 1000) {
+        if (document.hidden) {
+            // we are not visible, wait for user to choose
+        } else if (last_send_message.auto && !last_send_message.verified & (Date.now() - last_send_message.time) < 4 /* hours */ * 60 * 60 * 1000) {
             // last submitCodeRequest did not succeed
         } else {
             // use first by default
