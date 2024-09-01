@@ -24,6 +24,9 @@
           <%= error %>
        </div>
 
+       <div id="warnings">
+       </div>
+
        <div class="main1">
 
         <div id="no-choices" class="d-none">
@@ -527,11 +530,46 @@
         });
     }
 
+    function milliseconds_to_DaysHoursMinutes(ms) {
+        const minutes = Math.round(ms / 60 / 1000)
+        return {
+            days: Math.floor(minutes / 60 / 24),
+            hours: Math.floor(minutes / 60) % 24,
+            minutes: minutes % 60,
+        }
+    }
+
+    function milliseconds_to_french_text(ms) {
+        const translate = { days: ['jour', 'jours'], hours: ['heure', 'heures'], minutes: ['minute', 'minutes'] }
+        const dhm = milliseconds_to_DaysHoursMinutes(ms)
+        const to_text = (field) => {
+            const val = dhm[field]
+            return val === 0 ? '' : val + " " + translate[field][val > 1 ? 1 : 0]
+        }
+
+        const d = to_text('days')
+        const h = to_text('hours')
+        const m = to_text('minutes')
+
+        return (
+            dhm.days >= 7 ? [d] : dhm.days >= 1 ? [d,h]:
+            dhm.hours >= 10 ? [h] : [h,m]
+        ).filter(s => s).join(' et ')
+    }
+
+
     function start(params) {
         try { 
             // remove ticket from url for reload/navigation
             window.history.replaceState({}, null, location.href.replace(/[?&]ticket=.*/, '').replace(/[&?]auth_checked$/, ''))
         } catch (e) {}
+
+        if (params.validated_otp_too_old) {
+            const validity_duration_text = milliseconds_to_french_text(params.validated_otp_too_old.validity_seconds * 1000)
+            $("#warnings").html(`
+              Votre précédente authentification renforcée a été ignorée car l'application demande un code à usage unique récent (de moins de ${validity_duration_text})
+            `)
+        }
 
         getUserOtpMethods(params);
     }

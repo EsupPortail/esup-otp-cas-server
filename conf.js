@@ -22,6 +22,13 @@ module.exports = {
         },
     },
 
+    max_otp_validity_per_service: [
+        {
+            validity_seconds: 15 /*minutes*/ * 60,
+            domains_and_hostnames: ['otpmanager.univ.fr'],
+        },
+    ],
+    
     api_url: "http://localhost:3000/",
     api_password: "changeit",
     api_users_secret: "changeit",

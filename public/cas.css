@@ -24,7 +24,12 @@ a:hover, details summary:hover {
 #errors { 
     color: #CF4A02;
 }
- 
+
+#warnings { 
+    color: #2055cc;
+    margin: 1rem 0;
+}
+
 h1 {
     text-align: center;
      color: #727780;
