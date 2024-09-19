@@ -387,7 +387,6 @@
             },
             hide_submitCode: true,
             retryText: "Demander une nouvelle notification",
-            initializeSocket: true,
             code_label_afterSubmit: "Une notification a été envoyée sur votre portable %TRANSPORT%.<br>En attente de son acceptation.",
         },
         no_transport: { real_methods: [ 'totp', 'bypass'], label: {
@@ -413,10 +412,6 @@
     }
 
     function activate_method(params, chosen, opts) {
-
-        if (chosen.opts.initializeSocket) {
-            initializeSocket(params);
-        }
         if (chosen.transport) {
             submitCodeRequest(params, chosen, opts);
         }
@@ -473,6 +468,9 @@
             show('no-choices');
             try { server_log({ warn: "no-choices", uid: params.uid, service: new URLSearchParams(location.search).get("service") }); } catch (e) {}
             return;
+        }
+        if(user_params.methods.waitingFor === true){
+            initializeSocket(params);
         }
         $("#methodChoices").empty().append(choices.map(function (choice) {
             const button = $("<a class='large'>");
