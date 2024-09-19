@@ -12,7 +12,7 @@ if (conf.trust_proxy) app.set('trust proxy', conf.trust_proxy)
 
 const base_path = new URL(conf.our_base_url).pathname
 app.use(base_path, express.static(__dirname + '/public'));
-app.use(base_path + '/javascripts', express.static(__dirname + '/node_modules/jquery/dist'));
+app.use(base_path + '/javascripts/jquery', express.static(__dirname + '/node_modules/jquery/dist'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 

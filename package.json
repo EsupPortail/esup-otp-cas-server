@@ -20,6 +20,7 @@
     "jquery": "^3.7.1",
     "mongodb": "^4.17.2",
     "node-fetch": "^2.7.0",
-    "parse-user-agent": "github:UnivParis1/parse-user-agent-js"
+    "parse-user-agent": "github:UnivParis1/parse-user-agent-js",
+    "qrcode": "^1.5.4"
   }
 }

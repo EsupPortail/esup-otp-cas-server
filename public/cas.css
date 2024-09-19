@@ -81,7 +81,7 @@ input, button {
 #code > div {
     flex: 1;
 }
-#code li::marker {
+#code ul li::marker {
     content: "〉"; 
     color: #aaa;
     font-size: 83%;
@@ -146,6 +146,10 @@ input, button {
     width: 36px;
 }
     
+.esupnfc_qrcode {
+	max-width: 10em;
+	height: auto;
+}
 
 /***************/
 

@@ -70,7 +70,7 @@
     </div>
     </main>
         
-<script src="javascripts/jquery.min.js"></script>
+<script src="javascripts/jquery/jquery.min.js"></script>
 <script src="<%= params.apiUrl %>/js/socket.io.js" async></script>
 <script>
 
@@ -191,14 +191,7 @@
 
         $("#token, #submitCode").toggleClass('d-none', chosen.opts.hide_submitCode === true);
         $("#token").focus();
-        var real_methods = chosen.real_methods.sort().join(' ');
-        $("#code_label").html(
-            real_methods === 'totp' ?
-                "Merci de renseigner le code affiché sur votre application TOTP :" :
-            real_methods === 'bypass totp' ?
-                "Merci de renseigner le code affiché sur votre application TOTP ou un code de secours :" :
-                "Merci de renseigner un code :"
-        );
+        $("#code_label").html(chosen.opts.code_label?.(params, chosen) || "Merci de renseigner un code :");
 
         document.querySelector('#page_icon').src = 'images/page-' + (chosen.opts.override_icon || chosen.transport || chosen.method) + ".svg";
 
@@ -389,9 +382,20 @@
             retryText: "Demander une nouvelle notification",
             code_label_afterSubmit: "Une notification a été envoyée sur votre portable %TRANSPORT%.<br>En attente de son acceptation.",
         },
-        no_transport: { real_methods: [ 'totp', 'bypass'], label: {
-            '': 'Saisir un code TOTP ou un code de secours',
-        } },
+        no_transport: {
+            label: {
+                '': 'Saisir un code TOTP ou un code de secours',
+            },
+            real_methods: [ 'totp', 'bypass'],
+            code_label: (params, chosen) => {
+                switch(chosen.real_methods.sort().join(' ')) {
+                    case 'totp':
+                        return "Merci de renseigner le code affiché sur votre application TOTP :";
+                    case 'bypass totp':
+                        return "Merci de renseigner le code affiché sur votre application TOTP ou un code de secours :";
+                }
+            },
+        },
         random_code_mail: { label: { 
             sms: "Recevoir un code par SMS sur %TRANSPORT%",
             mail: "Recevoir un code par mél sur %TRANSPORT%",
@@ -400,6 +404,25 @@
             sms: "Recevoir un code par SMS sur %TRANSPORT%",
             mail: "Recevoir un code par mél sur %TRANSPORT%",
         } },
+        esupnfc: {
+            label: {
+                '': "S'authentifier avec sa carte multi-service sur un Smartphone compatible NFC"
+            },
+            override_icon: 'carte',
+            hide_submitCode: true,
+            code_label: (params, chosen) => {
+                if(!params.methods.esupnfc.server_infos?.qrcode) {
+                    return "S'authentifier avec sa carte multi-service sur un Smartphone compatible NFC";
+                }
+                return `
+                    <ol>
+                        <li>Lancez ou téléchargez la dernière version d'Esup-Auth (pour <a href="https://play.google.com/store/apps/details?id=org.esupportail.esupAuth">Android</a> ou <a href="https://apps.apple.com/fr/app/esup-auth/id1563904941">IOS</a>)</li>
+                        <li>Scannez le QRcode suivant à l'aide de l'application Esup-Auth dans le menu "Authentification NFC" : <div class="esupnfc_qrcode">${params.methods.esupnfc.server_infos.qrcode}</div></li>
+                        <li>Scannez votre carte étudiante ou professionnelle en NFC l'aide de l'application Esup-Auth</li>
+                    </ol>
+                    `;
+            },
+        },
     };
     
     const transports = {
