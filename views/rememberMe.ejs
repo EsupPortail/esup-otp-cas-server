@@ -17,16 +17,16 @@
 
     <main role="main">
         <div id="content">
-            <h2><b>Ne pas me demander de code sur ce matériel ?</b></h2>
+            <h2><b>Ne pas me redemander de code sur ce matériel pendant un mois</b></h2>
 
             <form id="registerform" method="post">
                 <input id="ticket" name="ticket" value="<%= ticket %>" type="hidden">
                 <button accesskey="o">
-                    <span>Oui pendant un mois</span>
+                    <span>Accepter<span>
                 </button>
                 <button accesskey="n" autofocus
                         onclick="document.getElementById('rememberMe').value = 'skip'">
-                    <span>Non</span>
+                    <span>Refuser</span>
                 </button>
                 <input type="hidden" id="rememberMe" name="rememberMe" value="submit">
             </form>
