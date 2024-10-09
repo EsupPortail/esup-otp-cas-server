@@ -33,7 +33,7 @@ module.exports = {
     api_password: "changeit",
     api_users_secret: "changeit",
     
-    ticket_validity_seconds: 60,
+    ticket_validity_seconds: 10, // same as Apereo CAS "cas.ticket.st.time-to-kill-in-seconds"
     uid_validity_seconds: 30 /*minutes*/ * 60,
     otp_validity_seconds: 30 /*minutes*/ * 60,
     otp_long_term_validity_seconds: 30 /*days*/ * 24 * 60 * 60,
