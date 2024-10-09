@@ -1,6 +1,7 @@
 module.exports = {
     our_base_url: "https://cas.univ.fr/mfa",
-    cas_server_validating_password_base_url: "https://cas.univ.fr/cas",
+    cas_server_validating_password_base_url_public: "https://cas.univ.fr/cas",
+    cas_server_validating_password_base_url_internal: "https://cas.univ.fr/cas",
     
     allowed_services: {
         domains_and_hostnames: [ "univ.fr" ],
