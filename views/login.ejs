@@ -404,6 +404,9 @@
             sms: "Recevoir un code par SMS sur %TRANSPORT%",
             mail: "Recevoir un code par mél sur %TRANSPORT%",
         } },
+        passcode_grid: { label: { 
+            '': 'Saisir le code indiqué sur votre grille de code',
+        } },
         esupnfc: {
             label: {
                 '': "S'authentifier avec sa carte multi-service sur un Smartphone compatible NFC"
@@ -435,6 +438,10 @@
     }
 
     function activate_method(params, chosen, opts) {
+        if(chosen.method == "passcode_grid") {
+            chosen.transport = "passcode_grid";
+        }
+
         if (chosen.transport) {
             submitCodeRequest(params, chosen, opts);
         }
@@ -528,8 +535,12 @@
                 show('choices');
                 console.log("Something is broken : ", data);
             } else {
-                console.log(chosen)
-                const code_label = chosen.opts.code_label_afterSubmit || "Un code a été envoyé au %TRANSPORT%,<br>saisissez le ici pour vous connecter.";
+                console.log(chosen);
+                let code_label = chosen.opts.code_label_afterSubmit || "Un code a été envoyé au %TRANSPORT%,<br>saisissez le ici pour vous connecter.";
+                if(chosen.method == "passcode_grid") {
+                    const challenge = data.message.challenge;
+                    code_label = `Veuillez saisir le code indiqué au croisement de la <strong>ligne ${String.fromCharCode(challenge[0] + 'A'.charCodeAt(0))}</strong> et de la <strong>colonne ${challenge[1] + 1}</strong> de votre grille de codes.`
+                }
                 updateCode_label(code_label.replace('%TRANSPORT%', chosen.transport_text));
             }
         });
