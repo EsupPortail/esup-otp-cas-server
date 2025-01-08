@@ -48,28 +48,37 @@
         </div>
                
         <div id="code" class="d-none">
-          <div>                                             
-            <label for="token">
+          <div>
+            <p>
+              <label for="token">
                 <div id="code_label"></div>
-                <input type="text" id="token" required
+                <input type="password" id="token" required
                 oninput="autosubmitIfValid(this)"
                 minlength="6" maxlength="6" pattern="[0-9]{6}"
                 placeholder="Saisissez le code de 6 chiffres"
                 accesskey="m" autocomplete="off" name="token" value="">
-            </label>
+              </label>
+            </p>
+            <p>
+              <label id="toggle_code_visibility-LABEL" for="toggle_code_visibility">
+                Afficher le code
+                <input id="toggle_code_visibility" type="checkbox"
+                  onclick="document.getElementById('token').type = this.checked ? 'text' : 'password'" />
+              </label>
+            </p>
 
-            <ul>      
+            <ul>
                 <li id="retry"><a></a></li>
                 <li id="back_to_choices"><a>Autre méthode de connexion</a></li>
             </ul>
           </div>
-          <img id="page_icon"></div>        
+          <img id="page_icon"></div>
        </div>
       </form>
-	  <%- include('help'); -%>
+      <%- include('help'); -%>
     </div>
     </main>
-        
+
 <script src="javascripts/jquery/jquery.min.js"></script>
 <script src="<%= params.apiUrl %>/js/socket.io.js" async></script>
 <script>
@@ -189,7 +198,7 @@
     function show_method(params, chosen) {
         show('code');
 
-        $("#token, #submitCode").toggleClass('d-none', chosen.opts.hide_submitCode === true);
+        $("#token, #submitCode, #toggle_code_visibility-LABEL").toggleClass('d-none', chosen.opts.hide_submitCode === true);
         $("#token").focus();
         $("#code_label").html(chosen.opts.code_label?.(params, chosen) || "Merci de renseigner un code :");
 
