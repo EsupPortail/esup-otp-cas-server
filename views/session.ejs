@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Ma session authentification renforcée</title>
+    <style>
+        body {
+            margin: 0;
+            /* from IDP: */
+            font-family: Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+            color: #32424a;
+            max-width: 800px;
+        }
+        #session .logout { 
+            background-color: #dfe6f3;
+            border-radius : 4px; 
+            color: #00326e;
+            margin : 4px; padding: 12px 21px; 
+            white-space: nowrap; display: inline-block;
+        }
+        .warning {
+            color: #CF4A02;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main role="main">
+        <div id="session">
+            <span class="warning">Vous avez une session authentification renforcée sur ce navigateur.</span>
+            <a class="logout" href="logout?noservice">Déconnecter la session d'authentification renforcée</a>
+            <small>
+                ⓘ session crée le <span id="date"></span>.
+            </small>
+        </div>
+    </main>
+    <script>
+        function start(session) {
+            if (session.validated_otp) {
+                const when = new Date(session.validated_otp)
+                document.getElementById("date").innerText = `${when.toLocaleDateString()} à ${when.toLocaleTimeString()}`
+            } else {
+                document.getElementById("session").remove()
+            }
+        }
+        start(<%- JSON.stringify(session) %>)
+
+    </script>
+</body>
+</html>
