@@ -195,12 +195,12 @@
         // focus on first focusable element
         document.getElementById(idToShow).querySelector('button, [href], input, select, [tabindex]')?.focus();
     }
-    function show_method(params, chosen) {
+    async function show_method(params, chosen) {
         show('code');
 
         $("#token, #submitCode, #toggle_code_visibility-LABEL").toggleClass('d-none', chosen.opts.hide_submitCode === true);
         $("#token").focus();
-        $("#code_label").html(chosen.opts.code_label?.(params, chosen) || "Merci de renseigner un code :");
+        updateCode_label(await chosen.opts.code_label?.(params, chosen) || "Merci de renseigner un code :");
 
         document.querySelector('#page_icon').src = 'images/page-' + (chosen.opts.override_icon || chosen.transport || chosen.method) + ".svg";
 
@@ -209,7 +209,7 @@
         $("#retry").toggleClass('d-none', !(chosen.transport || chosen.opts.retryText));
         const retryElement = document.querySelector("#retry a");
         retryElement.text = chosen.opts.retryText || "Recevoir un nouveau code";
-        onclick(retryElement, () => { clear_errors(); activate_method(params, chosen, {}) });
+        onclick(retryElement, async () => { clear_errors(); await activate_method(params, chosen, {}) });
 
         return false;
     }
@@ -364,12 +364,12 @@
     }
 
     function getUserOtpMethods(params) {
-        $.ajax({ url: params.apiUrl + '/users/'+ params.uid +'/' + params.userHash }).done(function(data) {
+        $.ajax({ url: params.apiUrl + '/users/'+ params.uid +'/' + params.userHash }).done(async function(data) {
             if (data.code != "Ok") {
                 alert("Erreur, veuillez réessayer ultérieurement");
                 return;
             }
-            displayChoices(params, data.user);
+            await displayChoices(params, data.user);
         });
     }
     const methods = {
@@ -422,9 +422,15 @@
             },
             override_icon: 'carte',
             hide_submitCode: true,
-            code_label: (params, chosen) => {
-                if(!params.methods.esupnfc.server_infos?.qrcode) {
+            code_label: async (params, chosen) => {
+                if (!params.methods.esupnfc?.server_infos) {
                     return "S'authentifier avec sa carte multi-service sur un Smartphone compatible NFC";
+                }
+                if (!params.methods.esupnfc.server_infos.qrcode) {
+                    const esupnfc_secret = await (fetch(`${params.apiUrl}users/${params.uid}/methods/esupnfc/secret/${params.userHash}`, { method: "POST" })
+                        .then(res => res.json())
+                    );
+                    params.methods.esupnfc.server_infos = esupnfc_secret.server_infos;
                 }
                 return `
                     <ol>
@@ -446,7 +452,7 @@
         }
     }
 
-    function activate_method(params, chosen, opts) {
+    async function activate_method(params, chosen, opts) {
         if(chosen.method == "passcode_grid") {
             chosen.transport = "passcode_grid";
         }
@@ -454,7 +460,7 @@
         if (chosen.transport) {
             submitCodeRequest(params, chosen, opts);
         }
-        show_method(params, chosen);
+        await show_method(params, chosen);
         chosen.opts.initialise?.(params, chosen, opts);
     }
 
@@ -501,7 +507,7 @@
         fetch('log?' + new URLSearchParams(vals))
     }
 
-    function displayChoices(params, user_params) {
+    async function displayChoices(params, user_params) {
         let choices = computeChoices(params, user_params)
         if (choices.length === 0) {
             show('no-choices');
@@ -513,9 +519,9 @@
         }
         $("#methodChoices").empty().append(choices.map(function (choice) {
             const button = $("<a class='large'>");
-            onclick(button[0], () => {
+            onclick(button[0], async () => {
                 clear_errors();
-                activate_method(params, choice, {});
+                await activate_method(params, choice, {});
                 return false;
             });
             button.append($("<span></span>").text(choice.text));
@@ -530,7 +536,7 @@
             // last submitCodeRequest did not succeed
         } else {
             // use first by default
-            activate_method(params, choices[0], { auto: true });
+            await activate_method(params, choices[0], { auto: true });
         }
     }
 
