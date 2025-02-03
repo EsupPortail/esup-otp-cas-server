@@ -30,7 +30,8 @@ module.exports = {
         },
     ],
     
-    api_url: "http://localhost:3000/",
+    api_url_public: "http://localhost:3000/",
+    api_url_internal: "http://localhost:3000/",
     api_password: "changeit",
     api_users_secret: "changeit",
     
