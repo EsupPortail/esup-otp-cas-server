@@ -535,8 +535,10 @@
         } else if (last_send_message.auto && !last_send_message.verified & (Date.now() - last_send_message.time) < 4 /* hours */ * 60 * 60 * 1000) {
             // last submitCodeRequest did not succeed
         } else {
-            // use first by default
-            await activate_method(params, choices[0], { auto: true });
+            const last_validated_method = user_params.last_validated?.method;
+            // use last validated method, or first method by default
+            const chosen = (last_validated_method && choices.find(choice => choice.real_methods.includes(last_validated_method))) || choices[0];
+            await activate_method(params, chosen, { auto: true });
         }
     }
 
