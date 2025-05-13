@@ -532,7 +532,7 @@
         const last_send_message = user_params.last_send_message || {};
         if (document.hidden) {
             // we are not visible, wait for user to choose
-        } else if (last_send_message.auto && !last_send_message.verified & (Date.now() - last_send_message.time) < 4 /* hours */ * 60 * 60 * 1000) {
+        } else if (last_send_message.auto && !last_send_message.verified) {
             // last submitCodeRequest did not succeed
         } else {
             const last_validated_method = user_params.last_validated?.method;
