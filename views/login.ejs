@@ -631,6 +631,10 @@
 
     start(<%- JSON.stringify(params) %>)
 </script>
+<script>
+    // handle "syntax error"s because of old browsers in JS code above:
+    if (!window.start) alert("Votre navigateur n'est pas compatible avec cette application. Veuillez utiliser une version plus récente")
+</script>
 
 </body>
 </html>
