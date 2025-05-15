@@ -108,6 +108,10 @@ input, button {
     color: #555; 
 }
 
+.obfuscated {
+    -webkit-text-security: disc;
+}
+
 #page_icon { 
     width:23%;  
 } 

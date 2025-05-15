@@ -52,7 +52,7 @@
             <p>
               <label for="token">
                 <div id="code_label"></div>
-                <input type="password" id="token" required
+                <input type="text" id="token" class="obfuscated" required
                 oninput="autosubmitIfValid(this)"
                 minlength="6" maxlength="6" pattern="[0-9]{6}"
                 placeholder="Saisissez le code de 6 chiffres"
@@ -63,7 +63,7 @@
               <label id="toggle_code_visibility-LABEL" for="toggle_code_visibility">
                 Afficher le code
                 <input id="toggle_code_visibility" type="checkbox"
-                  onclick="document.getElementById('token').type = this.checked ? 'text' : 'password'" />
+                  onchange="document.getElementById('token').classList.toggle('obfuscated', !this.checked)" />
               </label>
             </p>
 
