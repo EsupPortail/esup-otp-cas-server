@@ -369,7 +369,11 @@
                 alert("Erreur, veuillez réessayer ultérieurement");
                 return;
             }
-            await displayChoices(params, data.user);
+            try {
+                await displayChoices(params, data.user);
+            } catch (e) {
+                alert("Erreur " + e)
+            }
         });
     }
     const methods = {
