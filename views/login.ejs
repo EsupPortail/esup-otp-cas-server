@@ -428,7 +428,7 @@
                     return "S'authentifier avec sa carte multi-service sur un Smartphone compatible NFC";
                 }
                 if (!params.methods.esupnfc.server_infos.qrcode) {
-                    const esupnfc_secret = await (fetch(`${params.apiUrl}users/${params.uid}/methods/esupnfc/secret/${params.userHash}`, { method: "POST" })
+                    const esupnfc_secret = await (fetch(`${params.apiUrl}esupnfc/infos?requireQrCode=true`, { method: "GET" })
                         .then(res => res.json())
                     );
                     params.methods.esupnfc.server_infos = esupnfc_secret.server_infos;
