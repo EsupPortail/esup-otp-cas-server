@@ -190,14 +190,15 @@
             $('#' + id).toggleClass('d-none', id !== idToShow);
         });
         // focus on first focusable element
-        document.getElementById(idToShow).querySelector('button, [href], input, select, [tabindex]')?.focus();
+        let elt = document.getElementById(idToShow).querySelector('button, [href], input, select, [tabindex]')
+        if (elt) elt.focus();
     }
     async function show_method(params, chosen) {
         show('code');
 
         $("#token, #submitCode, #toggle_code_visibility-LABEL").toggleClass('d-none', chosen.opts.hide_submitCode === true);
         $("#token").focus();
-        updateCode_label(await chosen.opts.code_label?.(params, chosen) || "Merci de renseigner un code :");
+        updateCode_label(chosen.opts.code_label && await chosen.opts.code_label(params, chosen) || "Merci de renseigner un code :");
 
         document.querySelector('#page_icon').src = 'images/page-' + (chosen.opts.override_icon || chosen.transport || chosen.method) + ".svg";
 
@@ -424,7 +425,7 @@
             override_icon: 'carte',
             hide_submitCode: true,
             code_label: async (params, chosen) => {
-                if (!params.methods.esupnfc?.server_infos) {
+                if (!(params.methods.esupnfc || {}).server_infos) {
                     return "S'authentifier avec sa carte multi-service sur un Smartphone compatible NFC";
                 }
                 if (!params.methods.esupnfc.server_infos.qrCode) {
@@ -462,13 +463,13 @@
             submitCodeRequest(params, chosen, opts);
         }
         await show_method(params, chosen);
-        chosen.opts.initialise?.(params, chosen, opts);
+        if (chosen.opts.initialise) chosen.opts.initialise(params, chosen, opts);
     }
 
     function toggleDisplay(element, shown) {
         if(element.initialDisplayProperty === undefined) {
             // value you gave (e.g. 'flex') or nothing (reset)
-            element.initialDisplayProperty = element.style.display ?? 'initial';
+            element.initialDisplayProperty = element.style.display || 'initial';
         }
         element.style.display = shown ? element.initialDisplayProperty : 'none';
     }
@@ -494,7 +495,7 @@
                         transport: transport, 
                         transport_text: transport_text, 
                         text: text,
-                        opts: {...opts, ...(transports[transport])}
+                        opts: $.extend({}, opts, transports[transport]),
                     })
                 } else {
                     console.error("weird transport", transport, "for (pseudo) method", method)
@@ -536,7 +537,7 @@
         } else if (last_send_message.auto && !last_send_message.verified) {
             // last submitCodeRequest did not succeed
         } else {
-            const last_validated_method = user_params.last_validated?.method;
+            const last_validated_method = (user_params.last_validated || {}).method;
             // use last validated method, or first method by default
             const chosen = (last_validated_method && choices.find(choice => choice.real_methods.includes(last_validated_method))) || choices[0];
             await activate_method(params, chosen, { auto: true });
