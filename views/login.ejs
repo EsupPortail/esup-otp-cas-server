@@ -77,6 +77,11 @@
     </div>
     </main>
 
+    <script>
+    window.onerror = function (err, file, line) {
+        window.my_error = err + " at " + file + ":" + line;
+    }
+    </script>
 <script src="javascripts/jquery/jquery.min.js"></script>
 <script src="<%= params.apiUrl %>/js/socket.io.js"></script>
 <script>
@@ -633,7 +638,8 @@
 </script>
 <script>
     // handle "syntax error"s because of old browsers in JS code above:
-    if (!window.start) alert("Votre navigateur n'est pas compatible avec cette application. Veuillez utiliser une version plus récente")
+    if (!window.start) alert("Votre navigateur n'est pas compatible avec cette application. Veuillez utiliser une version plus récente. " + 
+        (window.my_error ? "\n\nErreur : " + window.my_error : ""))
 </script>
 
 </body>
