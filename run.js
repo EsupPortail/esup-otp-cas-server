@@ -17,9 +17,10 @@ app.use(base_path + '/javascripts/jquery', express.static(__dirname + '/node_mod
 app.use(bodyParser.urlencoded({ extended: false }));
 
 let mongo_collection
+let _mongo_client
 const mongo_client = async () => {
     const { MongoClient } = require('mongodb')
-    const client = await MongoClient.connect(conf.session_store.mongoUrl)
+    const client = _mongo_client = await MongoClient.connect(conf.session_store.mongoUrl)
     mongo_collection = client.db().collection('sessions')
     await mongo_collection.createIndex({ "session.ticket_for_SLO": 1 }, { background: true, expireAfterSeconds: 0 })
     await mongo_collection.createIndex({ "session.uid": 1 }, { background: true, expireAfterSeconds: 0 })
@@ -50,4 +51,16 @@ app.use(base_path, require('./lib/cas_server')());
 
 const port = process.env.PORT || conf.port || '3001'
 console.log('Starting on port ' + port);
-app.listen(port, process.env.IP);
+let server = app.listen(port, process.env.IP);
+
+process.on('SIGTERM', function() {
+    console.info('Stopping...')
+    server?.close((err) => {
+        // all requests are now finished
+        if (err) console.error("Stopping HTTP server failed", err)
+        _mongo_client?.close()
+        console.info('Stopped')
+        process.exit(0)
+    })
+    server = undefined // avoir errors if SIGTERM is received multiple times
+});
