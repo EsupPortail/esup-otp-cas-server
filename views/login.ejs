@@ -427,7 +427,7 @@
                 if (!params.methods.esupnfc?.server_infos) {
                     return "S'authentifier avec sa carte multi-service sur un Smartphone compatible NFC";
                 }
-                if (!params.methods.esupnfc.server_infos.qrcode) {
+                if (!params.methods.esupnfc.server_infos.qrCode) {
                     const esupnfc_secret = await (fetch(`${params.apiUrl}esupnfc/infos?requireQrCode=true`, { method: "GET" })
                         .then(res => res.json())
                     );
@@ -436,7 +436,7 @@
                 return `
                     <ol>
                         <li>Lancez ou téléchargez la dernière version d'Esup-Auth (pour <a href="https://play.google.com/store/apps/details?id=org.esupportail.esupAuth">Android</a> ou <a href="https://apps.apple.com/fr/app/esup-auth/id1563904941">IOS</a>)</li>
-                        <li>Scannez le QRcode suivant à l'aide de l'application Esup-Auth dans le menu "Authentification NFC" : <div class="esupnfc_qrcode">${params.methods.esupnfc.server_infos.qrcode}</div></li>
+                        <li>Scannez le QRcode suivant à l'aide de l'application Esup-Auth dans le menu "Authentification NFC" : <div class="esupnfc_qrcode">${params.methods.esupnfc.server_infos.qrCode}</div></li>
                         <li>Scannez votre carte étudiante ou professionnelle en NFC l'aide de l'application Esup-Auth</li>
                     </ol>
                     `;
