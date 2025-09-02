@@ -19,6 +19,7 @@
 
       <form method="post" id="fm1">
         <input id="ticket" name="ticket" value="<%= ticket %>" type="hidden">
+        <input type="hidden" name="uid_hint" value="">
 
        <div id="errors">
           <%= error %>
@@ -610,6 +611,7 @@
 
 
     function start(params) {
+        document.querySelector("input[name=uid_hint]").value = params.uid
         try { 
             // remove ticket from url for reload/navigation
             window.history.replaceState({}, null, location.href.replace(/[?&]ticket=.*/, '').replace(/[&?]auth_checked$/, ''))
