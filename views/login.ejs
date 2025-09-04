@@ -372,7 +372,7 @@
         }
     }
 
-    function getUserOtpMethods(params) {
+    function getUserOtpMethods_and_displayChoices(params) {
         $.ajax({ url: params.apiUrl + '/users/'+ params.uid +'/' + params.userHash }).done(async function(data) {
             if (data.code != "Ok") {
                 alert("Erreur, veuillez réessayer ultérieurement");
@@ -647,7 +647,7 @@
             `)
         }
 
-        getUserOtpMethods(params);
+        getUserOtpMethods_and_displayChoices(params);
     }
     
     onclick("#back_to_choices", () => { clear_errors(); show('choices'); });
