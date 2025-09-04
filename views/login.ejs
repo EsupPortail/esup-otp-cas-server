@@ -36,6 +36,15 @@
        <div id="warnings">
        </div>
 
+      </form>
+      <%- include('help'); -%>
+    </div>
+    </main>
+
+<script>
+
+    $("form").append(/*html*/`
+
        <div class="main1">
 
         <div id="no-choices" class="d-none">
@@ -80,12 +89,7 @@
           </div>
           <img id="page_icon"></div>
        </div>
-      </form>
-      <%- include('help'); -%>
-    </div>
-    </main>
-
-<script>
+    `)
 
     // for IE11 in pulse-secure
     Array.prototype.find = Array.prototype.find || function(callback) {
