@@ -14,6 +14,14 @@
         <div><h1>Authentification renforcée</h1></div>
     </header>
 
+    <script>
+    window.onerror = function (err, file, line) {
+        window.my_error = err + " at " + file + ":" + line;
+    }
+    </script>
+<script src="javascripts/jquery/jquery.min.js"></script>
+<script src="<%= params.apiUrl %>/js/socket.io.js"></script>
+
     <main role="main">
     <div id="content" class="main">
 
@@ -77,13 +85,6 @@
     </div>
     </main>
 
-    <script>
-    window.onerror = function (err, file, line) {
-        window.my_error = err + " at " + file + ":" + line;
-    }
-    </script>
-<script src="javascripts/jquery/jquery.min.js"></script>
-<script src="<%= params.apiUrl %>/js/socket.io.js"></script>
 <script>
 
     // for IE11 in pulse-secure
