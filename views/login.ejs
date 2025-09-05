@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>ESUP-OTP</title>
-    <link rel="stylesheet" type="text/css" href="login.css">
+    <link rel="stylesheet" type="text/css" href="<%= params.apiUrl %>/public/login.css">
     <link rel="stylesheet" type="text/css" href="cas.css">
 </head>
 
@@ -42,7 +42,7 @@
     </div>
     </main>
 
-<script src="login.js"></script>
+<script src="<%= params.apiUrl %>/public/login.js"></script>
 <script>
     function start(params) {
         document.querySelector("input[name=uid_hint]").value = params.uid
