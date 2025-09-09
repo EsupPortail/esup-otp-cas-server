@@ -74,6 +74,10 @@ input, button {
     display: none !important;
 }
 
+.inline-block {
+    display: inline-block; 
+}
+
 #code { 
     display: flex; 
 }

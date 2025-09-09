@@ -442,11 +442,24 @@
                 }
                 return `
                     <ol>
-                        <li>Lancez ou téléchargez la dernière version d'Esup-Auth (pour <a href="https://play.google.com/store/apps/details?id=org.esupportail.esupAuth">Android</a> ou <a href="https://apps.apple.com/fr/app/esup-auth/id1563904941">IOS</a>)</li>
-                        <li>Scannez le QRcode suivant à l'aide de l'application Esup-Auth dans le menu "Authentification NFC" : <div class="esupnfc_qrcode">${params.methods.esupnfc.server_infos.qrCode}</div></li>
-                        <li>Scannez votre carte étudiante ou professionnelle en NFC l'aide de l'application Esup-Auth</li>
+                        <li>Télécharger la dernière version de l'application Esup-Auth (pour <a href="https://play.google.com/store/apps/details?id=org.esupportail.esupAuth">Android</a> ou <a href="https://apps.apple.com/fr/app/esup-auth/id1563904941">IOS</a>) si ce n'est pas déjà fait.</li>
+                        <li>Lancer l'application Esup-Auth.</li>
+                        <li>
+                            Configurer l'authentification NFC sur l'application si ce n'est pas déjà fait.
+                            <ol style="list-style-type: circle;">
+                                <li>Pour cela, sur l'application, cliquer sur le symbole "+" en bas à droite de l'écran.</li>
+                                <li>Puis sélectionner <span class="inline-block">"Scanner QR code"</span>.</li>
+                                <li>
+                                    Scanner le QR code ci-dessous :
+                                    <div class="esupnfc_qrcode">${params.methods.esupnfc.server_infos.qrCode}</div>
+                                </li>
+                            </ol>
+                            En cas de difficultés pour scanner le QR code, sélectionner "Saisie manuelle", et renseigner l'adresse <span class="inline-block">${params.apiUrl}</span>
+                        </li>
+                        <li>Cliquer sur <span class="inline-block">"${params.methods.esupnfc.server_infos.etablissement}"</span>.</li>
+                        <li>Suivre les instructions à l'écran.</li>
                     </ol>
-                    `;
+                `;
             },
         },
     };
