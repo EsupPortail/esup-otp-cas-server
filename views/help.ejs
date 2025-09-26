@@ -1,13 +1,28 @@
 <details id="help">
     <summary>Un problème ?</summary>
-	<h4>Vous souhaitez réinitialiser vos facteurs d'authentification renforcée ?</h4>
+    <h4>Vous souhaitez réinitialiser vos facteurs d'authentification renforcée ?</h4>
+    <style>
+        #content.method-esupnfc .if-not-method-esupnfc,
+        #content.show-choices .if-not-show-choices,
+        #content:not(.show-choices) .if-show-choices {
+            display: none;
+        }       
+    </style>
     <ul>
-        <li>Vous pouvez le faire en passant par FranceConnect via <a href="https://p1ps.fr/init-mfa-fc">https://p1ps.fr/init-mfa-fc</a>.</li>
+        <li class="if-not-method-esupnfc if-not-show-choices">
+            Vous pouvez utiliser votre carte étudiante ou professionnelle.<br />
+            Pour cela, cliquez sur "Autre méthode de connexion", sélectionnez "S'authentifier avec sa carte multi-service sur un Smartphone compatible NFC" et suivez les instructions.
+        </li>
+        <li class="if-show-choices">
+            Vous pouvez utiliser votre carte étudiante ou professionnelle.<br />
+            Pour cela, sélectionnez "S'authentifier avec sa carte multi-service sur un Smartphone compatible NFC" et suivez les instructions.
+        </li>
+        <li>Sinon, vous pouvez passer par FranceConnect via <a href="https://p1ps.fr/init-mfa-fc">https://p1ps.fr/init-mfa-fc</a>.</li>
         <li>
-            Une deuxième solution est de vous connecter sur le réseau wifi "universite-paris1" ou filaire de l'université.<br />
+            Une autre solution est de vous connecter sur le réseau wifi "universite-paris1" ou filaire de l'université.<br />
             Vous pourrez ainsi réinitialiser vos facteurs d'authentification via l'application 
             <a href="https://esup-otp-manager.univ-paris1.fr/preferences#">Authentification renforcée</a> disponible dans votre ENT.
         </li>
+        <li>Si les méthodes précédentes ne fonctionnent pas, <a href="mailto:assistance-dsiun@univ-paris1.fr?subject=Problème ESUP-OTP">Contactez la DSIUN</a>.</li>
     </ul>
-	<p>En cas de difficultés, <a href="mailto:assistance-dsiun@univ-paris1.fr?subject=Problème ESUP-OTP">Contactez la DSIUN</a>.</p>
 </details>
