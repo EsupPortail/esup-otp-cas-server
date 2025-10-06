@@ -54,7 +54,7 @@
         if (params.validated_otp_too_old) {
             const validity_duration_text = milliseconds_to_french_text(params.validated_otp_too_old.validity_seconds * 1000)
             $("#warnings").html(`
-              Votre précédente authentification renforcée a été ignorée car l'application demande un code à usage unique récent (de moins de ${validity_duration_text})
+              Votre précédente authentification renforcée a été ignorée car l'application demande une authentification renforcée récente (de moins de ${validity_duration_text})
             `)
         }
 
