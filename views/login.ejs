@@ -21,7 +21,6 @@
     }
     </script>
 <script src="javascripts/jquery/jquery.min.js"></script>
-<script src="<%= params.apiUrl %>/js/socket.io.js"></script>
 
     <main role="main">
     <div id="content" class="main">
@@ -42,8 +41,9 @@
     </div>
     </main>
 
-<script src="<%= params.apiUrl %>/public/login.js"></script>
-<script>
+<script type="module">
+    import * as login_js from "<%= params.apiUrl %>/public/login.js?v=1"
+
     function start(params) {
         document.querySelector("input[name=uid_hint]").value = params.uid
         try { 
@@ -58,15 +58,21 @@
             `)
         }
 
+        if (!login_js.getUserOtpMethods_and_displayChoices) {
+            // the login.js has no export (ie prior to migration to module). It is a fatal error:
+            alert('FATAL ERROR: you must upgrade esup-otp-api to >= v2.2.0 (or downgrade esup-otp-cas-server)')
+        }
+
         params.otpManagerUrl = 'https://otpmanager-test.univ-paris1.fr/preferences'
-        getUserOtpMethods_and_displayChoices(params);
+        login_js.getUserOtpMethods_and_displayChoices(params);
     }
+    window.import_ok = true
 
     start(<%- JSON.stringify(params) %>)
 </script>
-<script>
+<script type="module">
     // handle "syntax error"s because of old browsers in JS code above:
-    if (!window.start) alert("Votre navigateur n'est pas compatible avec cette application. Veuillez utiliser une version plus récente. " + 
+    if (!window.import_ok) alert("Votre navigateur n'est pas compatible avec cette application. Veuillez utiliser une version plus récente. " + 
         (window.my_error ? "\n\nErreur : " + window.my_error : ""))
 </script>
 
