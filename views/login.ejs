@@ -51,16 +51,16 @@
             window.history.replaceState({}, null, location.href.replace(/[?&]ticket=.*/, '').replace(/[&?]auth_checked$/, ''))
         } catch (e) {}
 
-        if (params.validated_otp_too_old) {
-            const validity_duration_text = milliseconds_to_french_text(params.validated_otp_too_old.validity_seconds * 1000)
-            $("#warnings").html(`
-              Votre précédente authentification renforcée a été ignorée car l'application demande une authentification renforcée récente (de moins de ${validity_duration_text})
-            `)
-        }
-
         if (!login_js.getUserOtpMethods_and_displayChoices) {
             // the login.js has no export (ie prior to migration to module). It is a fatal error:
             alert('FATAL ERROR: you must upgrade esup-otp-api to >= v2.2.0 (or downgrade esup-otp-cas-server)')
+        }
+
+        if (params.validated_otp_too_old) {
+            const validity_duration_text = login_js.milliseconds_to_french_text(params.validated_otp_too_old.validity_seconds * 1000)
+            $("#warnings").html(`
+              Votre précédente authentification renforcée a été ignorée car l'application demande une authentification renforcée récente (de moins de ${validity_duration_text})
+            `)
         }
 
         params.otpManagerUrl = 'https://otpmanager-test.univ-paris1.fr/preferences'
