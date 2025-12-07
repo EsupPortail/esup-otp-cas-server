@@ -61,5 +61,10 @@ module.exports = {
 
     plugins: {
         authnContextClass_refeds_mfa: {},
+
+        //impersonate: {
+        //    cookieName: 'CAS_IMPERSONATE',
+        //    canImpersonateUrl: "https://ent.univ.fr/EsupUserApps/canImpersonate",
+        //},
     }
 }
