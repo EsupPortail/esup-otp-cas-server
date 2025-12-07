@@ -58,4 +58,8 @@ module.exports = {
             secret: 'changeit' // NB: express-session sends session ID signed with this secret => something even harder to randomly guess...
         }
     },
+
+    plugins: {
+        authnContextClass_refeds_mfa: {},
+    }
 }
