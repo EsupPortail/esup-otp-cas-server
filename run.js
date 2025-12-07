@@ -46,8 +46,11 @@ app.use(session({
 app.set('views', __dirname + '/views');
 app.set("view engine", "ejs");
 
-app.use(base_path, require('./lib/cas_server')());
+app.use(base_path, require('./lib/cas_server').routing());
 
+for (const plugin in conf.plugins) {
+    require(`./lib/plugins/${plugin}`)
+}
 
 const port = process.env.PORT || conf.port || '3001'
 console.log('Starting on port ' + port);
