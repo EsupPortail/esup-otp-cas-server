@@ -75,6 +75,10 @@
     if (!window.import_ok) alert("Votre navigateur n'est pas compatible avec cette application. Veuillez utiliser une version plus récente. " + 
         (window.my_error ? "\n\nErreur : " + window.my_error : ""))
 </script>
+<script nomodule>
+    // for VERY old browsers
+    alert("Votre navigateur est obsolète. Veuillez mettre à jour votre navigateur.");
+</script>
 
 </body>
 </html>
