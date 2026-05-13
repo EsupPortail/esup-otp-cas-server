@@ -1,25 +1,24 @@
 {
   "name": "esup-otp-api-server",
   "version": "1.0.0",
-  "private": true,
   "repository": {
     "type": "git",
     "url": "git://github.com/EsupPortail/esup-otp-api-server.git"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "scripts": {
     "start": "node run"
   },
   "dependencies": {
-    "connect-mongo": "^4.6.0",
-    "crypto-js": "^4.2.0",
-    "ejs": "^3.1.10",
-    "express": "^4.19.2",
-    "express-session": "^1.18.0",
-    "ip-range-check": "^0.2.0",
-    "jquery": "^3.7.1",
-    "mongodb": "^4.17.2",
-    "node-fetch": "^2.7.0",
+    "connect-mongo": "4.x",
+    "crypto-js": "4.x",
+    "ejs": "3.x",
+    "express": "4.x",
+    "express-session": "1.x",
+    "ip-range-check": "0.2.x",
+    "jquery": "3.x",
+    "mongodb": "4.x",
+    "node-fetch": "2.x",
     "parse-user-agent": "github:UnivParis1/parse-user-agent-js"
   }
 }
