@@ -6,6 +6,7 @@
     "url": "git://github.com/EsupPortail/esup-otp-api-server.git"
   },
   "license": "Apache-2.0",
+  "type": "module",
   "scripts": {
     "start": "node run"
   },
@@ -20,5 +21,11 @@
     "mongodb": "4.x",
     "node-fetch": "2.x",
     "parse-user-agent": "github:UnivParis1/parse-user-agent-js"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.x",
+    "@tsconfig/node24": "^24.0.4",
+    "eslint": "10.x",
+    "globals": "17.x"
   }
 }

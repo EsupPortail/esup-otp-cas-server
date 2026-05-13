@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-const fetch = require('node-fetch')
-const conf = require('./conf');
-const { compute_no_otp_conds } = require('./lib/cond_no_otp');
-const { my_log_if_ticket, my_log } = require('./lib/helpers');
+import fetch from 'node-fetch';
+import conf from "./conf.js";
+import { compute_no_otp_conds } from "./lib/cond_no_otp.js";
+import { my_log_if_ticket, my_log } from "./lib/helpers.js"
 
 async function test_otp_needed(service, uid, activated) {
     const req = { query: { service }, session: { uid }, get() { return "" } }

@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const session = require('express-session')
-const conf = require('./conf');
+import express from 'express'
+import bodyParser from 'body-parser';
+import session from "express-session";
+import { MongoClient } from 'mongodb'
+import MongoStore from 'connect-mongo'
+import conf from "./conf.js";
+import * as cas_server from "./lib/cas_server.js";
 
 function throw_(e) { throw e }
 const app = express();
@@ -11,15 +14,14 @@ const app = express();
 if (conf.trust_proxy) app.set('trust proxy', conf.trust_proxy)
 
 const base_path = new URL(conf.our_base_url).pathname
-app.use(base_path, express.static(__dirname + '/public'));
-app.use(base_path + '/javascripts/jquery', express.static(__dirname + '/node_modules/jquery/dist'));
+app.use(base_path, express.static(import.meta.dirname + '/public'));
+app.use(base_path + '/javascripts/jquery', express.static(import.meta.dirname + '/node_modules/jquery/dist'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
 let mongo_collection
 let _mongo_client
 const mongo_client = async () => {
-    const { MongoClient } = require('mongodb')
     const client = _mongo_client = await MongoClient.connect(conf.session_store.mongoUrl)
     mongo_collection = client.db().collection('sessions')
     await mongo_collection.createIndex({ "session.ticket_for_SLO": 1 }, { background: true, expireAfterSeconds: 0 })
@@ -31,11 +33,14 @@ app.use((req, _res, next) => {
     next()
 })
 
-const store = conf.session_store.mongoUrl ? require('connect-mongo').create({
+if(!conf.session_store.mongoUrl) {
+    throw_("unknown session_store");
+}
+const store = MongoStore.create({
     clientPromise: mongo_client(),
     stringify: false,
     ttl: conf.ticket_validity_seconds, // short ttl that will be 
-}) : throw_("unknown session_store") ;
+});
 app.use(session({ 
     store,
     cookie: { path: base_path, secure: 'auto', sameSite: 'none' },
@@ -43,13 +48,13 @@ app.use(session({
     ...conf.session_store.options,
 }));
 
-app.set('views', __dirname + '/views');
+app.set('views', import.meta.dirname + '/views');
 app.set("view engine", "ejs");
 
-app.use(base_path, require('./lib/cas_server').routing());
+app.use(base_path, cas_server.routing());
 
 for (const plugin in conf.plugins) {
-    require(`./lib/plugins/${plugin}`)
+    await import(`./lib/plugins/${plugin}.js`)
 }
 
 const port = process.env.PORT || conf.port || '3001'
