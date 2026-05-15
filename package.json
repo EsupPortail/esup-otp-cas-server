@@ -18,7 +18,6 @@
     "ip-range-check": "0.2.x",
     "jquery": "3.x",
     "mongodb": "4.x",
-    "node-fetch": "2.x",
     "parse-user-agent": "github:UnivParis1/parse-user-agent-js"
   },
   "devDependencies": {

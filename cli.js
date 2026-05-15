@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-import fetch from 'node-fetch';
 import conf from "./conf.js";
 import { compute_no_otp_conds } from "./lib/cond_no_otp.js";
 import { my_log_if_ticket, my_log } from "./lib/helpers.js"
