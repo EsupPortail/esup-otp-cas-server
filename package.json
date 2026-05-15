@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "connect-mongo": "4.x",
-    "crypto-js": "4.x",
     "ejs": "3.x",
     "express": "4.x",
     "express-session": "1.x",
