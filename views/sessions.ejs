@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Mes sessions d'authentification</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/css/bootstrap.min.css">
+    <style>
+        a, a:visited {
+            color: #205588;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #2055cc;
+            text-decoration: underline;
+        }
+        @media (min-width: 1400px) {
+            .container-xxl {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main role="main" class="container-xxl">
+        <h1 class="h2">Mes sessions d'authentification</h1>
+        <p>Consultez vos sessions d’authentification actives sur vos appareils et navigateurs.</p>
+        <p>Si vous suspectez une activité inhabituelle, <a href="https://compte.univ-paris1.fr/compte/change_mdp">changez votre mot de passe</a>. Toutes vos sessions seront réinitialisées.</p>
+        <div id="sessions" class="text-center table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+	                    <th scope="col">Navigateur</th>
+	                    <th scope="col">Lieu</th>
+	                    <th scope="col">IP</th>
+	                    <th scope="col">Connexion initiale</th>
+	                    <th scope="col">Dernière connexion</th>
+	                    <th scope="col">Authentification renforcée</th>
+	                    <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                <% sessions.forEach(function(s){ %>
+                    <tr data-isOtpSession="<%= s.isOtpSession %>" data-isApereoSession="<%= s.isApereoSession %>">
+                        <td><%= s.browser %></td>
+                        <td><%= s.geolocation?.city || s.geolocation?.region || "" %></td>
+                        <td><%= s.ip %></td>
+                        <td class="date"><%= s.loginDate?.toISOString() || "" %></td>
+                        <td class="date"><%= s.lastUseDate?.toISOString() || "" %></td>
+                        <td><%= s.mfaMethod %></td>
+                        <td>
+                            <% if(s.currentSession){ %>
+                                Session courante
+                            <% } else{ %>  
+                                <button class="btn btn-outline-danger" onclick="logoutSession('<%= s.ST %>', '<%= s.TGT_hash %>')">
+                                    Déconnecter
+                                </button>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <script>
+        // replace "/login?service=/sessions" with "/sessions" in displayed URL
+        history.pushState(null, "", "<%- path %>");
+
+        async function logoutSession(ST, TGT_hash) {
+            if (window.confirm("Cela déconnectera cette session.")) {
+                const query = new URLSearchParams({ ST, TGT_hash });
+                const res = await fetch(`?${query}`, { method: "DELETE" });
+                if(res.status == 401) {
+                    window.alert("Session expirée. Veuillez vous reconnecter.")
+                }
+                location.reload();
+            }
+        }
+
+        // "2026-05-21T09:16:48.830Z" to "15/05/2026 15:42"
+        const dateFormat = {
+            year:   "numeric",
+            month:  "numeric",
+            day:    "numeric",
+            hour:   "numeric",
+            minute: "numeric",
+        };
+        function formatDate(date) {
+            return date && new Date(date)?.toLocaleDateString(undefined, dateFormat);
+        }
+        for (const el of document.getElementsByClassName("date")) {
+          el.innerText = formatDate(el.innerText);
+        }
+    </script>
+    <script>window.prolongation_ENT_args = { current : "sessions" };</script>
+    <script src="https://ent-test.univ-paris1.fr/ProlongationENT/loader.js"></script>
+</body>
+
+</html>

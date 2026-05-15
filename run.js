@@ -16,6 +16,7 @@ if (conf.trust_proxy) app.set('trust proxy', conf.trust_proxy)
 const base_path = new URL(conf.our_base_url).pathname
 app.use(base_path, express.static(import.meta.dirname + '/public'));
 app.use(base_path + '/javascripts/jquery', express.static(import.meta.dirname + '/node_modules/jquery/dist'));
+app.use(base_path + '/css/bootstrap', express.static(import.meta.dirname + '/node_modules/bootstrap/dist'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 

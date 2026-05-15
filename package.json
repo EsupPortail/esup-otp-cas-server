@@ -11,6 +11,7 @@
     "start": "node run"
   },
   "dependencies": {
+    "bootstrap": "5.x",
     "connect-mongo": "4.x",
     "ejs": "3.x",
     "express": "4.x",
@@ -23,6 +24,7 @@
   "devDependencies": {
     "@eslint/js": "10.x",
     "@tsconfig/node24": "^24.0.4",
+    "@types/express": "4.x",
     "eslint": "10.x",
     "globals": "17.x"
   }
